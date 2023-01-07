@@ -20,3 +20,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# python manage.py runserver - to start the application
+# python manage.py migrate - to migrate and create default tables in DB
+# python manage.py createsuperuser - to create a superuser
