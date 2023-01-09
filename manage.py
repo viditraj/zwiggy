@@ -24,3 +24,4 @@ if __name__ == '__main__':
 # python manage.py runserver - to start the application
 # python manage.py migrate - to migrate and create default tables in DB
 # python manage.py createsuperuser - to create a superuser
+# python manage.py startapp <app_name> - to create an app like accounts etc
