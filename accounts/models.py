@@ -9,7 +9,7 @@ from django.dispatch import receiver
 class UserManager(BaseUserManager):
 
     # Create a normal user
-    def create_user(self, first_name, last_name, username, email, password=None):
+    def create_user(self, first_name, last_name, username, email, phone_number, password=None):
         if not email:
             raise ValueError('User must have an email address')
         if not username:
@@ -20,19 +20,21 @@ class UserManager(BaseUserManager):
             username = username,
             first_name = first_name,
             last_name = last_name,
+            phone_number = phone_number
         )
         user.set_password(password) # sets encode and store the password of the current user
         user.save(using=self._db)
         return user
     
     # first create a normal user using above function then make him superuser
-    def create_superuser(self,first_name, last_name, username, email, password=None):
+    def create_superuser(self,first_name, last_name, username, email, phone_number, password=None):
         user = self.create_user(
             email = self.normalize_email(email),
             username = username,
             password = password,
             first_name = first_name,
             last_name = last_name,
+            phone_number = phone_number,
         )
 
         # making user a superuser 
@@ -100,19 +102,5 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.email
         
-@receiver(post_save, sender=User)
-def post_save_create_user_profile(sender, instance, created, **kargs):
-    if created:
-        # new profile 
-       UserProfile.objects.create(user=instance)
-    else:
-        # update exisitng profile
-        try:
-           profile = UserProfile.objects.get(user= instance)
-           profile.save()
-        except:
-            # if the profile does not exist but the user exits then create the profile for that user. 
-              UserProfile.objects.create(user=instance)
-
 
 
