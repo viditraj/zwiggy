@@ -1,1 +1,16 @@
-<p>You are not authorized to view this page!</p>
+<!-- <p>You are not authorized to view this page!</p> -->
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Ropa+Sans" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/403-custom.css' %}">
+</head>
+<body>
+<div class="error-main">
+<h1>Oops!</h1>
+<div class="error-heading">403</div>
+<p>You do not have permission to access this page.</p>
+</div>
+</body>
+</html>

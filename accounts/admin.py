@@ -6,7 +6,7 @@ from django.contrib.auth.admin import UserAdmin
 
 class CustomUserAdmin(UserAdmin):
 
-    #list_display = ('email', 'first_name', 'username')  ---> use is to display custom fields in admin panel
+    list_display = ('email', 'first_name', 'username', 'role') # ---> use is to display custom fields in admin panel
     filter_horizontal = ()
     list_filter = ()
     fieldsets = ()
