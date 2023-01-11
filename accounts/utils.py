@@ -15,7 +15,7 @@ def detectUser(user):
     return redirectUrl
 
 
-def send_verification_email(request, user, mail_subject, email_template):
+def send_email(request, user, mail_subject, email_template):
     from_email = settings.DEFAULT_FROM_EMAIL
     current_site = get_current_site(request)
     message = render_to_string(email_template ,{\
@@ -28,6 +28,17 @@ def send_verification_email(request, user, mail_subject, email_template):
     print(to_email)
     mail = EmailMessage(mail_subject, message, from_email, to=[to_email])
     mail.send()
+
+
+def send_notification_email(mail_subject, mail_template, context):
+    from_email = settings.DEFAULT_FROM_EMAIL
+    message = render_to_string(mail_template, context)
+    to_email = context['user'].email
+    print(to_email)
+    mail = EmailMessage(mail_subject, message, from_email, to=[to_email])
+    mail.send()
+
+
 
 
 
