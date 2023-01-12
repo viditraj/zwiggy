@@ -10,7 +10,7 @@ def post_save_create_user_profile(sender, instance, created, **kargs):
     else:
         # update exisitng profile
         try:
-           profile = UserProfile.objects.get(user= instance)
+           profile = UserProfile.objects.get(user=instance)
            profile.save()
         except:
             # if the profile does not exist but the user exits then create the profile for that user. 

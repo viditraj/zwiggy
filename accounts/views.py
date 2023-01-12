@@ -142,7 +142,6 @@ def logout(request):
 
 
 @login_required(login_url='login')
-
 def myAccount(request):
     user = request.user
     redirectUrl = detectUser(user)
