@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from accounts.forms import UserProfileForm
 from accounts.models import UserProfile
 from django.contrib import messages
-from menu.forms import CategoryForm
+from menu.forms import CategoryForm, FoodItemForm
 from menu.models import Category, FoodItem
 from vendor.forms import VendorForm
 from vendor.models import Vendor
@@ -29,12 +29,9 @@ def vprofile(request):
             vendor_form.save()
             messages.success(request, 'Settings updated')
             return redirect('vprofile')
-        else:
-            print(profile_form.errors)
     else:
         profile_form = UserProfileForm(instance=profile)
         vendor_form = VendorForm(instance=vendor)
-
     context = {
         'profile_form': profile_form,
         'vendor_form': vendor_form,
@@ -76,7 +73,8 @@ def add_category(request):
             category_name = form.cleaned_data['category_name']
             category = form.save(commit=False)
             category.vendor = get_vendor(request)
-            category.slug =slugify(category_name)
+            slug_in = f'{category_name} {category.vendor}'
+            category.slug =slugify(slug_in)
             form.save()
             messages.success(request, 'Category added successfully')
             return redirect('menu_builder')
@@ -116,3 +114,57 @@ def delete_category(request, pk=None):
     Category.delete(category)
     messages.success(request, 'Category has been deleted successfully')
     return redirect('menu_builder')
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_vendor)
+def add_food(request):
+    if request.method == 'POST':
+        form = FoodItemForm(request.POST, request.FILES)
+        if form.is_valid():
+            food_title = form.cleaned_data['food_title']
+            fooditem = form.save(commit=False)
+            fooditem.vendor = get_vendor(request)
+            slug_in = f'{food_title} {fooditem.vendor}'
+            fooditem.slug =slugify(slug_in)
+            form.save()
+            messages.success(request, 'Food Item added successfully')
+            return redirect('fooditems_by_category', fooditem.category.id)
+    else:
+        form = FoodItemForm()
+        form.fields['category'].queryset = Category.objects.filter(vendor=get_vendor(request))
+    context = {
+        'form' : form,
+    }
+    return render(request, 'vendor/add_food.html', context)
+
+@login_required(login_url='login')
+@user_passes_test(check_role_vendor)
+def edit_food(request, pk=None):
+    food = get_object_or_404(FoodItem, pk=pk)
+    if request.method == 'POST':
+        form = FoodItemForm(request.POST, instance=food)
+        if form.is_valid():
+            food_title = form.cleaned_data['food_title']
+            food = form.save(commit=False)
+            food.vendor = get_vendor(request)
+            food.slug =slugify(food_title)
+            form.save()
+            messages.success(request, 'Food item updated successfully')
+            return redirect('fooditems_by_category', food.category.id)
+    else:
+        form = FoodItemForm(instance=food)
+        form.fields['category'].queryset = Category.objects.filter(vendor=get_vendor(request))
+    context = {
+        'form':form,
+        'food':get_object_or_404(FoodItem, pk=pk)
+    }
+    return render(request, 'vendor/edit_food.html', context)
+
+@login_required(login_url='login')
+@user_passes_test(check_role_vendor)
+def delete_food(request, pk=None):
+    food = get_object_or_404(FoodItem, pk=pk)
+    FoodItem.delete(food)
+    messages.success(request, 'Food Item has been deleted successfully')
+    return redirect('fooditems_by_category', food.category.id)
