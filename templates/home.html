@@ -21,7 +21,7 @@
 				</div>
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
 					<div class="main-search fancy bg-holder">
-						<form action="#" method="GET">
+						<form action="{% url 'search' %}" method="GET">
 							<div class="row">
 								<div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
 									<div class="field-holder">
@@ -47,13 +47,11 @@
 								<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 									<select name="radius" id="radius" style="height: 50px;" required>
 										<option value="" selected>Choose Radius</option>
-										<option value="5">5km</option>
-										<option value="10">10km</option>
-										<option value="15">15km</option>
-										<option value="25">25km</option>
-										<option value="50">50km</option>
-										<option value="75">75km</option>
-										<option value="100">100km</option>
+										<option value="5">1km</option>
+										<option value="10">2km</option>
+										<option value="15">3km</option>
+										<option value="25">5km</option>
+										<option value="50">10km</option>
 									</select>
 								</div>
 								<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
