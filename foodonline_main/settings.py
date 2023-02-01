@@ -164,7 +164,7 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'foodOnline Marketplace <viditraj46@gmail.com>'
 
-GOOGLE_API_KEY = 'AIzaSyCfzQiDyo7c876tTVR6IuHkAb6KsiIuMdQ'
+GOOGLE_API_KEY = config('GOOGLE_API_KEY')
 
 os.environ['PATH'] = os.path.join(BASE_DIR, 'foodenv\Lib\site-packages\osgeo') + ';' + os.environ['PATH']
 os.environ['PROJ_LIB'] = os.path.join(BASE_DIR, 'foodenv\Lib\site-packages\osgeo\data\proj') + ';' + os.environ['PATH']
