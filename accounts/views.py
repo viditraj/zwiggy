@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages, auth
 from django import forms
 from accounts.utils import detectUser, send_email
@@ -158,7 +158,11 @@ def myAccount(request):
 @login_required(login_url='login')
 @user_passes_test(check_role_customer)
 def custDashboard(request):
-    return render(request, 'accounts/custDashboard.html')
+    user_profile = get_object_or_404(UserProfile, user = request.user)
+    context = {
+        'user_profile':user_profile,
+    }
+    return render(request, 'accounts/custDashboard.html', context)
 
 @login_required(login_url='login')
 @user_passes_test(check_role_vendor)
