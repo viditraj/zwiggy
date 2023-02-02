@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'vendor',
     'menu',
     'customers',
+    'orders',
     'marketplace',
     'django.contrib.gis',
 ]
@@ -75,6 +76,7 @@ TEMPLATES = [
                 'marketplace.context_processors.get_cart_counter',
                 'marketplace.context_processors.get_cart_amounts',
                 'accounts.context_processors.get_google_api',
+                'accounts.context_processors.get_paypal_client_id',
             ],
         },
     },
@@ -170,3 +172,10 @@ GOOGLE_API_KEY = config('GOOGLE_API_KEY')
 os.environ['PATH'] = os.path.join(BASE_DIR, 'foodenv\Lib\site-packages\osgeo') + ';' + os.environ['PATH']
 os.environ['PROJ_LIB'] = os.path.join(BASE_DIR, 'foodenv\Lib\site-packages\osgeo\data\proj') + ';' + os.environ['PATH']
 GDAL_LIBRARY_PATH = os.path.join(BASE_DIR, 'foodenv\Lib\site-packages\osgeo\gdal304.dll')
+
+PAYPAL_CLIENT_ID = config('PAYPAL_CLIENT_ID')
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'
+
+RZP_KEY_ID = config('RZP_KEY_ID')
+RZP_KEY_SECRET = config('RZP_KEY_SECRET')

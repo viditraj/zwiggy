@@ -64,7 +64,7 @@
                                                     <td><img src="{{ item.fooditem.image.url }}" width="40" alt="Food Image"></td>
                                                     <td><b>{{ item.fooditem }}</b></td>
                                                     <td>{{ item.quantity }}</td>
-                                                    <td>${{ item.fooditem.price }}</td>
+                                                    <td>₹{{ item.fooditem.price }}</td>
                                                 </tr>
                                                 {% endfor %}
                                             </tbody>
@@ -74,7 +74,7 @@
                                             <li style="list-style-type: none;">
                                                 Subtotal
                                                 <span class="price float-right">
-                                                    <span class="currency">$</span>
+                                                    <span class="currency">₹</span>
                                                     <span id="subtotal">{{ subtotal }}</span>
                                                 </span>
                                             </li>
@@ -84,7 +84,7 @@
                                                     <li style="list-style-type: none;">
                                                         {{ key }} <small>({{ i }}%)</small>
                                                         <span class="price float-right">
-                                                            <span class="currency">$</span>
+                                                            <span class="currency">₹</span>
                                                             <span id="tax-{{ key }}">{{ j }}</span>
                                                         </span>
                                                     </li>
@@ -95,7 +95,7 @@
                                             <li style="list-style-type: none; font-weight: 600;">
                                                 TOTAL
                                                 <span class="price float-right">
-                                                    <span class="currency">$</span>
+                                                    <span class="currency">₹</span>
                                                     <span id="total">{{ grand_total }}</span>
                                                 </span>
                                             </li>
@@ -149,7 +149,7 @@
     var order_number = "{{ order.order_number }}"
     const csrftoken = getCookie('csrftoken');
     var order_complete = "{% url 'order_complete' %}"
-    console.log('csrftoken===>', csrftoken)
+    // console.log('csrftoken===>', csrftoken)
     // Render the PayPal button into #paypal-button-container
     paypal.Buttons({
 
@@ -168,7 +168,7 @@
         onApprove: function(data, actions) {
             return actions.order.capture().then(function(orderData) {
                 // Successful capture! For demo purposes:
-                console.log(orderData)
+                //console.log(orderData)
                 var transaction = orderData.purchase_units[0].payments.captures[0];
 
                 var transaction_id = transaction.id
@@ -204,10 +204,10 @@
                 const element = document.getElementById('rzp_payment_button');
                 element.innerHTML = '';
                 element.innerHTML = '<h4 class="text-center"><i class="fa fa-spinner fa-spin"></i> Please wait...</h4>';
-
+                console.log(response)
                 var transaction_id = response.razorpay_payment_id
                 var payment_method = 'RazorPay'
-                var status = 'Success'
+                var status = 'COMPLETED'
                 sendTransaction(transaction_id, payment_method, status)
             },
             "prefill": {

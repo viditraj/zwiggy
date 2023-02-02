@@ -11,7 +11,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="tabs-holder horizontal">
                         <ul class="stickynav-tabs nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#home"><i class="fa fa-shopping-cart text-danger"></i>Billing Address</a></li>
+                            <li class="active"><a data-toggle="tab" href="#"><i class="fa fa-shopping-cart text-danger"></i>Billing Address</a></li>
                             
                         </ul>
                         <div class="tab-content">
@@ -83,7 +83,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div class="tabs-holder horizontal">
                         <ul class="stickynav-tabs nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#home"><i class="icon- icon-room_service"></i>Your Order</a></li>
+                            <li class="active"><a data-toggle="tab" href="{% url 'cart' %}"><i class="icon- icon-room_service"></i>Your Order</a></li>
                             
                         </ul>
                         <div class="tab-content">
@@ -107,7 +107,7 @@
                                                         <span>{{ item.quantity }} QTY</span>
                                                     </div>
                                                     <div class="price-holder">
-                                                        <span class="price">${{ item.fooditem.price }}</span>
+                                                        <span class="price">₹{{ item.fooditem.price }}</span>
                                                     </div>
                                                 </li>
                                                 {% endfor %}
@@ -123,7 +123,7 @@
                                             <li style="list-style-type: none;">
                                                 Subtotal
                                                 <span class="price float-right">
-                                                    <span class="currency">$</span>
+                                                    <span class="currency">₹</span>
                                                     <span id="subtotal">{{ subtotal }}</span>
                                                 </span>
                                             </li>
@@ -133,7 +133,7 @@
                                                     <li style="list-style-type: none;">
                                                         {{ key }} <small>({{ i }}%)</small>
                                                         <span class="price float-right">
-                                                            <span class="currency">$</span>
+                                                            <span class="currency">₹</span>
                                                             <span id="tax-{{ key }}">{{ j }}</span>
                                                         </span>
                                                     </li>
@@ -144,7 +144,7 @@
                                             <li style="list-style-type: none; font-weight: 600;">
                                                 TOTAL
                                                 <span class="price float-right">
-                                                    <span class="currency">$</span>
+                                                    <span class="currency">₹</span>
                                                     <span id="total">{{ grand_total }}</span>
                                                 </span>
                                             </li>
