@@ -83,7 +83,7 @@
                 <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
                     <div class="tabs-holder horizontal">
                         <ul class="stickynav-tabs nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#home"><i class="icon- icon-room_service"></i>Menu</a></li>
+                            <li class="active"><a data-toggle="tab" href="{% url 'vendor_detail' vendor.vendor_slug %}"><i class="icon- icon-room_service"></i>Menu</a></li>
                             
                         </ul>
                         <div class="tab-content">
@@ -104,7 +104,15 @@
                                                 <div class="text-holder">
                                                     <h6>{{ food }}</h6>
                                                     <span>{{ food.description }}</span>
+                                                    {% if food.rating %}
+                                                    <i class="{% if food.rating > 0 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
+                                                    <i class="{% if food.rating > 1 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
+                                                    <i class="{% if food.rating > 2 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
+                                                    <i class="{% if food.rating > 3 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
+                                                    <i class="{% if food.rating > 4 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
+                                                    {% endif %}
                                                 </div>
+                                               
                                                 <div class="price-holder">
                                                     <span class="price">₹{{ food.price }}</span>
 

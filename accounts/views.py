@@ -10,7 +10,9 @@ from django.core.exceptions import PermissionDenied
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
 from vendor.models import Vendor
+from orders.models import Order
 from django.template.defaultfilters import slugify
+import datetime
 # Create your views here.
 
 # Restrict customer from accessing vendor page
@@ -159,7 +161,12 @@ def myAccount(request):
 @user_passes_test(check_role_customer)
 def custDashboard(request):
     user_profile = get_object_or_404(UserProfile, user = request.user)
+    orders = Order.objects.filter(user=request.user, is_ordered=True)
+    recent_orders = orders[:5]
     context = {
+        'orders': orders,
+        'recent_orders': recent_orders,
+        'orders_count': orders.count(),
         'user_profile':user_profile,
     }
     return render(request, 'accounts/custDashboard.html', context)
@@ -167,7 +174,29 @@ def custDashboard(request):
 @login_required(login_url='login')
 @user_passes_test(check_role_vendor)
 def vendorDashboard(request):
-    return render(request, 'accounts/vendorDashboard.html')
+    vendor = Vendor.objects.get(user=request.user)
+    orders = Order.objects.filter(vendors__in=[vendor.id], is_ordered=True).order_by('created_at')
+    recent_orders = orders[:5]
+
+    current_month = datetime.datetime.now().month
+    current_month_orders = Order.objects.filter(vendors__in=[vendor.id], created_at__month=current_month)
+    current_month_revenue =0
+    for i in current_month_orders:
+        current_month_revenue += i.get_total_by_vendor()['grand_total']
+
+    total_revenue = 0
+    for i in orders:
+        total_revenue += i.get_total_by_vendor()['grand_total']
+
+
+    context = {
+        'orders': orders,
+        'orders_count': orders.count(),
+        'recent_orders': recent_orders,
+        'total_revenue': total_revenue,
+        'current_month_revenue': current_month_revenue,
+    }
+    return render(request, 'accounts/vendorDashboard.html', context)
 
 
 

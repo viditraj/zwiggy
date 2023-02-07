@@ -51,7 +51,15 @@
                                             {% if vendor.user_profile.address %}
                                             <span><small class="text-muted">{{ vendor.user_profile.address }}</small></span>
                                             {% endif %}
-
+                                            <br>
+                                            {% if vendor.rating %}
+                                                <i class="{% if vendor.rating > 0 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
+                                                <i class="{% if vendor.rating > 1 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
+                                                <i class="{% if vendor.rating > 2 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
+                                                <i class="{% if vendor.rating > 3 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
+                                                <i class="{% if vendor.rating > 4 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
+                                                <br>
+                                            {% endif %}
                                             {% if source_location %}
                                             <br>
                                             <span><small><b>{{vendor.kms}}km</b> away from {{source_location}}</small></span>

@@ -7,11 +7,13 @@ from django.contrib import messages
 from marketplace.views import is_ajax
 from menu.forms import CategoryForm, FoodItemForm
 from menu.models import Category, FoodItem
+from orders.models import Order, OrderedFood
 from vendor.forms import VendorForm, OpeningHourForm
 from vendor.models import OpeningHour, Vendor
 from django.contrib.auth.decorators import login_required, user_passes_test
 from accounts.views import check_role_vendor
 from django.template.defaultfilters import slugify
+import simplejson as json
 # Create your views here.
 
 
@@ -60,6 +62,8 @@ def fooditems_by_category(request, pk=None):
     vendor = get_vendor(request)
     category = get_object_or_404(Category, pk=pk)
     fooditems = FoodItem.objects.filter(vendor=vendor, category=category)
+    for item in fooditems:
+        print("item.rating")
     context = {
         'fooditems': fooditems,
         'category': category
@@ -188,7 +192,6 @@ def add_opening_hours(request):
             from_hour = request.POST.get('from_hour')
             to_hour = request.POST.get('to_hour')
             is_closed = request.POST.get('is_closed')
-            print(day)
             try:
                 hour = OpeningHour.objects.create(vendor=get_vendor(request), day=day, from_hour=from_hour, to_hour=to_hour, is_closed=is_closed)
                 if hour:
@@ -211,4 +214,33 @@ def remove_opening_hours(request, pk=None):
             hour = get_object_or_404(OpeningHour, pk=pk)
             hour.delete()
             return JsonResponse({'status':'success', 'id': pk})
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_vendor)
+def order_detail(request, order_number):
+    try:
+        order = Order.objects.get(order_number=order_number, is_ordered=True)
+        ordered_food = OrderedFood.objects.filter(order=order, fooditem__vendor=get_vendor(request))
+        context = {
+            'subtotal': order.get_total_by_vendor()['subtotal'],
+            'order': order,
+            'ordered_food': ordered_food,
+            'tax_data': order.get_total_by_vendor()['tax_dict'],
+            'grand_total': order.get_total_by_vendor()['grand_total'],
+        }
+    except Exception as e:
+        print(e)
+        return redirect('vendor')
+    return render(request, 'vendor/order_detail.html', context)
+
+
+def my_orders(request):
+    vendor = Vendor.objects.get(user=request.user)
+    orders = Order.objects.filter(vendors__in=[vendor.id], is_ordered=True).order_by('created_at')
+    context = {
+        'orders': orders,
+    }
+    return render(request, 'vendor/my_orders.html', context )
+
 

@@ -145,9 +145,17 @@
 											</h5>
 										</div>
 										{% if vendor.user_profile.city and vendor.user_profile.state and vendor.user_profile.pin_code %}
-										<span>{{ vendor.user_profile.city }}, {{ vendor.user_profile.state }}, {{ vendor.user_profile.pin_code }}</span>
+											<span>{{ vendor.user_profile.city }}, {{ vendor.user_profile.state }}, {{ vendor.user_profile.pin_code }}</span>
 										{% endif %}
-
+										<br>
+										{% if vendor.rating %}
+										<i class="{% if vendor.rating > 0 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
+										<i class="{% if vendor.rating > 1 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
+										<i class="{% if vendor.rating > 2 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
+										<i class="{% if vendor.rating > 3 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
+										<i class="{% if vendor.rating > 4 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
+										{% endif %}
+										<br>
 										{% if vendor.kms %}
 											<br>
 											<span><small><b>{{vendor.kms}} km </b>away</small></span>
