@@ -5,22 +5,14 @@ from accounts.models import UserProfile
 from accounts.utils import send_notification_email
 # Create your models here.
 
-
-RATINGS = [
-    (1, ('1')),
-    (2, ('2')),
-    (3, ('3')),
-    (4, ('4')),
-    (5, ('5')),
-]
-
 class Vendor(models.Model):
     user = models.OneToOneField(User, related_name='user', on_delete=models.CASCADE)
     user_profile = models.OneToOneField(UserProfile, related_name='userprofile', on_delete=models.CASCADE)
     vendor_name = models.CharField(max_length=50)
     vendor_slug = models.SlugField(max_length=100, unique=True)
     vendor_license = models.ImageField(upload_to='vendor/license')
-    rating = models.IntegerField(choices=RATINGS, blank=True, null=True)
+    rating = models.FloatField(blank=True, null=True)
+    no_of_rating = models.IntegerField(blank=True, null=True, default=0)
     is_approved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now_add=True)

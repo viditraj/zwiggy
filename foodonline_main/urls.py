@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from . import views
 from marketplace import views as MarketplaceViews
+from reviews import views as ReviewViews
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf import settings

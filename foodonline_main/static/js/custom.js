@@ -107,6 +107,30 @@ $(document).ready(function(){
         
     })
 
+
+    $('.add_like').on('click', function(e){
+        e.preventDefault();
+        review_id = $(this).attr('data-id');
+        url = $(this).attr('data-url');
+        console.log(url)
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function(response){
+                if(response.status == 'login_required'){
+                    swal(response.message,'', 'info').then(function(){
+                        window.location = '/login';
+                    })
+                }else if(response.status == 'failed'){
+                    swal(response.message,'', 'error')
+                }
+                else{
+                    $('#qty-'+review_id).html(response.likes_count);
+                }
+            }
+        })
+    })
+
    // document ready close 
 
     // place the cart item quantity on load
@@ -290,4 +314,5 @@ $(document).ready(function(){
         })
     })
     // Document read close
+
 });

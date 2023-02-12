@@ -1,5 +1,6 @@
 from django import forms
 from accounts.forms import UserForms
+from orders.models import Order
 from .models import Vendor
 from .models import OpeningHour
 from accounts.validators import allow_only_images_validator
@@ -15,3 +16,10 @@ class OpeningHourForm(forms.ModelForm):
     class Meta:
         model = OpeningHour
         fields = ['day','from_hour', 'to_hour', 'is_closed']
+
+
+class OrderStatusForm(forms.ModelForm):
+    delivery_time = forms.IntegerField(max_value=60)
+    class Meta:
+        model = Order
+        fields = ['status', 'delivery_time']

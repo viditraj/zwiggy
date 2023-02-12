@@ -8,12 +8,13 @@ from marketplace.views import is_ajax
 from menu.forms import CategoryForm, FoodItemForm
 from menu.models import Category, FoodItem
 from orders.models import Order, OrderedFood
-from vendor.forms import VendorForm, OpeningHourForm
+from vendor.forms import OrderStatusForm, VendorForm, OpeningHourForm
 from vendor.models import OpeningHour, Vendor
 from django.contrib.auth.decorators import login_required, user_passes_test
 from accounts.views import check_role_vendor
 from django.template.defaultfilters import slugify
 import simplejson as json
+from accounts.utils import detectUser, send_notification_email
 # Create your views here.
 
 
@@ -222,12 +223,14 @@ def order_detail(request, order_number):
     try:
         order = Order.objects.get(order_number=order_number, is_ordered=True)
         ordered_food = OrderedFood.objects.filter(order=order, fooditem__vendor=get_vendor(request))
+        vendor_name = get_vendor(request).vendor_name
         context = {
             'subtotal': order.get_total_by_vendor()['subtotal'],
             'order': order,
             'ordered_food': ordered_food,
             'tax_data': order.get_total_by_vendor()['tax_dict'],
             'grand_total': order.get_total_by_vendor()['grand_total'],
+            'vendor_name': vendor_name,
         }
     except Exception as e:
         print(e)
@@ -242,5 +245,39 @@ def my_orders(request):
         'orders': orders,
     }
     return render(request, 'vendor/my_orders.html', context )
+
+
+def change_order_status(request, order_number):
+    order = Order.objects.get(order_number=order_number, is_ordered=True)
+    if request.method == 'POST':
+        form = OrderStatusForm(request.POST, instance=order)
+        if form.is_valid():
+            delivery_time = form.cleaned_data['delivery_time']
+            form.save()
+            status = form.cleaned_data['status']
+            if status == 'Accepted':
+                mail_subject = 'Your Order is being processed.'
+            elif status == 'Completed':
+                mail_subject = 'Your Order is delivered successfully.'
+            elif status == 'Cancelled':
+                mail_subject = 'Your Order is cancelled.'
+            mail_template = 'orders/order_processing_email.html'
+            context = {
+            'first_name': order.first_name,
+            'last_name' : order.last_name,
+            'to_email': order.email,
+            'delivery_time' : delivery_time,
+            'status': status,
+            }
+            send_notification_email(mail_subject, mail_template, context)
+            messages.success(request, 'Order Status Updated Successfully')
+            return redirect('vendor_my_orders')
+    else:
+        form = OrderStatusForm(instance = order)
+    context = {
+        'form' : form,
+        'order': order,
+    }
+    return render(request, 'vendor/change_order_status.html', context)
 
 

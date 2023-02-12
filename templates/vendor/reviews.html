@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+{% include 'includes/alerts.html' %}
+
+<!-- Main Section Start -->
+<div class="main-section">
+    {% include 'includes/cover.html' %}
+    <div class="page-section account-header buyer-logged-in">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <!-- Load the sidebar here -->
+                    {% include 'includes/rest_sidebar.html' %}
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                    <div class="user-dashboard loader-holder">
+                      <div class="col-sm-12"style="padding-bottom: 10px;">
+                        <div class="card">
+                          <div class="card-body">
+                            {% include 'includes/user_ratings_dash.html' %}
+                            </div>
+                          </div>
+                        </div>
+                            {% for review in reviews %}
+                            <div class="col-sm-6"style="padding-bottom: 10px;">
+                              <div class="card">
+                                <div class="card-body">
+                                  <h3 class="card-title" style="margin-bottom:3px;">{{ review.user.first_name }}</h3>
+                                  {% if review.rating_given %}
+										<i class="fa fa-star {% if review.rating_given > 0 %} checked {% else %}  {% endif %} fa-star"></i>
+										<i class="fa fa-star {% if review.rating_given > 1 %} checked {% else %}  {% endif %} fa-star"></i>
+										<i class="fa fa-star {% if review.rating_given > 2 %} checked {% else %}  {% endif %} fa-star"></i>
+										<i class="fa fa-star {% if review.rating_given > 3 %} checked {% else %}  {% endif %} fa-star"></i>
+										<i class="fa fa-star {% if review.rating_given > 4 %} checked {% else %}  {% endif %} fa-star"></i>
+										{% endif %}
+                                    <br>
+                                  <p class="card-text" style="margin-top: 5px;">{{ review.content }}</p>
+                                </div>
+                              </div>
+                            </div>
+                           {% endfor %}
+                           <a href="{% url 'add_review' vendor_slug %}" class="btn btn-danger w-100 p-2 mt-3">Add your review</a>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<!-- Main Section End -->
+{% endblock %}

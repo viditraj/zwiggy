@@ -1,0 +1,27 @@
+{% load static %}
+
+
+<span class="heading">User Rating</span>
+<span class="fa fa2 fa-star checked"></span>
+<span class="fa fa2 fa-star checked"></span>
+<span class="fa fa2 fa-star checked"></span>
+<span class="fa fa2 fa-star checked"></span>
+<span class="fa fa2 fa-star"></span>
+<p>{{vendor.rating}} average based on {{vendor.no_of_rating}} reviews.</p>
+<hr style="border:3px solid #f1f1f1">
+
+<div class="row">
+    {% for key, value in review_dict.items%}
+    <div class="side">
+        <div>{{key}} star</div>
+    </div>
+    <div class="middle">
+        <div class="bar-container">
+        <div class="bar-{{key}}" style="width:{{value}}%"></div>
+        </div>
+    </div>
+    <div class="side right">
+        <div>{{value}}</div>
+    </div>
+    {% endfor %}
+</div>

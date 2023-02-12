@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+{% include 'includes/alerts.html' %}
+
+<!-- Main Section Start -->
+<div class="main-section">
+    {% include 'includes/cover.html' %}
+    <div class="page-section account-header buyer-logged-in">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="user-dashboard loader-holder">
+                        <h6>Add Review</h6>
+                            <form action="{% url 'add_review' vendor_slug %}" method="POST">
+                                {% csrf_token %}
+                                <div class="form-fields-set">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <div class="field-holder">
+                                                <label >Review *</label>
+                                                {{form.content}}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <div class="field-holder">
+                                                <label >Rating</label>
+                                                {{form.rating_given}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {% for field in form %}
+                                    {% if field.errors %}
+                                        {% for error in field.errors %}
+                                            <li style="color: red;">{{ error }}</li>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+
+                                <button type="submit" class="btn btn-info"><i class="fa fa-check" aria-hidden="true"></i> Submit </button>
+                            </form>
+
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<!-- Main Section End -->
+{% endblock %}

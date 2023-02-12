@@ -1,0 +1,9 @@
+<div class="user-account-nav user-account-sidebar">
+    <div class="user-nav-list">
+        <ul>
+            <li class="{% if '/marketplace/' == request.path or '/accounts/vendor/' == request.path %}active{% endif %}"><a href="{% url 'vendor_detail' vendor.vendor_slug %}"><i class="icon-dashboard3"></i>Menu</a></li>
+            <li class="{% if '/reviews/' in request.path %}active{% endif %}"><a href="{% url 'reviews' vendor.vendor_slug %}"><i class="icon-menu5"></i>Reviews</a></li>
+            <!-- <li><a href="restaurant-earnings.html"><i class="icon-money"></i>Earnings</a></li> -->
+        </ul>
+    </div>
+</div>

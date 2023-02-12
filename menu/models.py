@@ -41,6 +41,7 @@ class FoodItem(models.Model):
     is_available = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_non_veg = models.BooleanField(null=True, blank=True)
 
 
     class Meta:

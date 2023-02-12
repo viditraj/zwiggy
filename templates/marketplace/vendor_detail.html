@@ -67,20 +67,11 @@
     <div class="page-section">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 sticky-sidebar">
-                    
-                    <div class="filter-wrapper">
-                        <div class="categories-menu">
-                            <h6><i class="icon-restaurant_menu"></i>Categories</h6>
-                            <ul class="menu-list">
-                                {% for category in categories %}
-                                <li class="active"><a href="#" class="menu-category-link"> {{ category }} </a></li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <!-- Load the sidebar here -->
+                    {% include 'includes/rest_sidebar.html' %}
                 </div>
-                <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                     <div class="tabs-holder horizontal">
                         <ul class="stickynav-tabs nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="{% url 'vendor_detail' vendor.vendor_slug %}"><i class="icon- icon-room_service"></i>Menu</a></li>
@@ -102,14 +93,20 @@
                                             <li>
                                                 <div class="image-holder"> <img src="{{ food.image.url }}" alt=""></div>
                                                 <div class="text-holder">
-                                                    <h6>{{ food }}</h6>
+                                                    <h6>{{ food }}
+                                                    {% if food.is_non_veg %}
+                                                    <img src="{% static 'images/non-veg.png' %}" width="15px">
+                                                    {% else %}
+                                                    <img src="{% static 'images/veg.png' %}" width="15px">
+                                                    {% endif %}
+                                                    </h6>
                                                     <span>{{ food.description }}</span>
                                                     {% if food.rating %}
-                                                    <i class="{% if food.rating > 0 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
-                                                    <i class="{% if food.rating > 1 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
-                                                    <i class="{% if food.rating > 2 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
-                                                    <i class="{% if food.rating > 3 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
-                                                    <i class="{% if food.rating > 4 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
+                                                    <i class="fa fa-star {% if food.rating > 0 %} checked {% else %}  {% endif %} fa-star"></i>
+                                                    <i class="fa fa-star {% if food.rating > 1 %} checked {% else %}  {% endif %} fa-star"></i>
+                                                    <i class="fa fa-star {% if food.rating > 2 %} checked {% else %}  {% endif %} fa-star"></i>
+                                                    <i class="fa fa-star {% if food.rating > 3 %} checked {% else %}  {% endif %} fa-star"></i>
+                                                    <i class="fa fa-star {% if food.rating > 4 %} checked {% else %}  {% endif %} fa-star"></i>
                                                     {% endif %}
                                                 </div>
                                                

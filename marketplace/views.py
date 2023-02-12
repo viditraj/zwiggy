@@ -2,6 +2,7 @@ from datetime import date, datetime
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from accounts.models import UserProfile
+from reviews.forms import ReviewForm
 from .context_processors import get_cart_amounts, get_cart_counter
 from vendor.models import Vendor, OpeningHour
 from menu.models import Category, FoodItem
@@ -14,6 +15,8 @@ from django.contrib.gis.geos import GEOSGeometry
 from django.contrib.gis.measure import D
 from django.contrib.gis.db.models.functions import Distance
 from orders.forms import OrderForm
+from django.contrib import messages
+from reviews.models import VendorReviews
 # Create your views here.
 
 
@@ -191,3 +194,45 @@ def checkout(request):
         'cart_items':cart_items,
     }
     return render(request, 'marketplace/checkout.html', context)
+
+def calc_avg_ratings(vendor , current_rating):
+    reviews = VendorReviews.objects.filter(vendor=vendor)
+    review_count = reviews.count()+1
+    total_rating = 0
+    for review in reviews:
+        total_rating += review.rating_given
+    total_count = reviews.count()
+    avg_ratings = (total_rating + current_rating) / (total_count+1)
+    avg_ratings = round(avg_ratings*2)/2
+    return([avg_ratings,review_count])
+
+def add_review(request, vendor_slug):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = ReviewForm(request.POST)
+            if form.is_valid():
+                current_rating = form.cleaned_data['rating_given']
+                vendor = Vendor.objects.get(vendor_slug=vendor_slug)
+                vc = calc_avg_ratings(vendor, current_rating)
+                vendor.rating = vc[0]
+                vendor.no_of_rating = vc[1]
+                review = form.save(commit=False)
+                vendor.save()
+                vendor = Vendor.objects.get(vendor_slug=vendor_slug)
+                review.vendor = vendor
+                review.user = request.user
+                review.save()
+                messages.success(request, 'Review Submitted.')
+                return redirect('reviews', vendor_slug)
+            else:
+                print(form.errors)
+        else:
+            form = ReviewForm()
+        context ={
+            'form' : form,
+            'vendor_slug': vendor_slug,
+        }
+        return render(request, 'vendor/add_review.html', context)
+    else:
+        messages.info(request, 'Login to add review')
+        return redirect('login')

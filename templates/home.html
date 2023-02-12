@@ -149,11 +149,11 @@
 										{% endif %}
 										<br>
 										{% if vendor.rating %}
-										<i class="{% if vendor.rating > 0 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
-										<i class="{% if vendor.rating > 1 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
-										<i class="{% if vendor.rating > 2 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
-										<i class="{% if vendor.rating > 3 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
-										<i class="{% if vendor.rating > 4 %} fa-solid {% else %} fa-regular {% endif %} fa-star"></i>
+										<i class="fa fa-star {% if vendor.rating > 0 %} checked {% else %}  {% endif %} fa-star"></i>
+										<i class="fa fa-star {% if vendor.rating > 1 %} checked {% else %}  {% endif %} fa-star"></i>
+										<i class="fa fa-star {% if vendor.rating > 2 %} checked {% else %}  {% endif %} fa-star"></i>
+										<i class="fa fa-star {% if vendor.rating > 3 %} checked {% else %}  {% endif %} fa-star"></i>
+										<i class="fa fa-star {% if vendor.rating > 4 %} checked {% else %}  {% endif %} fa-star"></i>
 										{% endif %}
 										<br>
 										{% if vendor.kms %}

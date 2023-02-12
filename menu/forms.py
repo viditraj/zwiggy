@@ -13,4 +13,4 @@ class FoodItemForm(forms.ModelForm):
     
     class Meta:
         model = FoodItem
-        fields = ['food_title', 'category', 'description', 'is_available','price', 'image']
+        fields = ['food_title', 'category', 'description', 'is_available', 'is_non_veg', 'price', 'image']

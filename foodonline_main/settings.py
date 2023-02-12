@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast= bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['user34198b8195b23b.app.vtxhub.com', '127.0.0.1']
 
 
 # Application definition
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'customers',
     'orders',
     'marketplace',
+    'reviews',
     'django.contrib.gis',
 ]
 
