@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast= bool)
 
-ALLOWED_HOSTS = ['user34198b8195b23b.app.vtxhub.com', '127.0.0.1']
+ALLOWED_HOSTS = ['user34198b8195b23b.app.vtxhub.com', '127.0.0.1' , '.vercel.app', '.now.sh']
 
 
 # Application definition
@@ -143,6 +143,11 @@ STATIC_ROOT = BASE_DIR /'static'
 STATICFILES_DIRS = [
     'foodonline_main/static'
 ]
+
+
+import os
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
 # Media files configuration
 MEDIA_URL = '/media/'
