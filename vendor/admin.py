@@ -1,5 +1,5 @@
 from django.contrib import admin
-from vendor.models import Vendor
+from vendor.models import Images, Vendor
 from vendor.models import OpeningHour
 
 # Register your models here.
@@ -11,5 +11,10 @@ class VendorAdmin(admin.ModelAdmin):
 class OpeningHourAdmin(admin.ModelAdmin):
     list_display = ('vendor', 'day', 'from_hour', 'to_hour')
 
+
+class ImageAdmin(admin.ModelAdmin):
+    list_display = ('vendor', 'image')
+
+admin.site.register(Images, ImageAdmin)
 admin.site.register(Vendor, VendorAdmin)
 admin.site.register(OpeningHour, OpeningHourAdmin)

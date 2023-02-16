@@ -313,6 +313,25 @@ $(document).ready(function(){
             }
         })
     })
+
+    // Remove Images
+
+    $(document).on('click','.remove_img', function(e){
+        e.preventDefault();
+        url = $(this).attr('data-url'); 
+        console.log(url);
+        $.ajax({
+            type:'GET',
+            url:url,
+            success:function(response){
+                if(response.status == 'success'){
+                    document.getElementById('img-'+response.id).remove()
+                }
+            }
+        })
+    })
+
+
     // Document read close
 
 });

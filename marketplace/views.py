@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from accounts.models import UserProfile
 from reviews.forms import ReviewForm
 from .context_processors import get_cart_amounts, get_cart_counter
-from vendor.models import Vendor, OpeningHour
+from vendor.models import Images, Vendor, OpeningHour
 from menu.models import Category, FoodItem
 from django.shortcuts import get_object_or_404
 from django.db.models import Prefetch
@@ -236,3 +236,13 @@ def add_review(request, vendor_slug):
     else:
         messages.info(request, 'Login to add review')
         return redirect('login')
+
+
+def images(request, vendor_slug):
+    vendor = Vendor.objects.get(vendor_slug=vendor_slug)
+    images = Images.objects.filter(vendor = vendor)
+    context={
+        'vendor':vendor,
+        'images':images,
+    }
+    return render(request, 'vendor/images.html', context)

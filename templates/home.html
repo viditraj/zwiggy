@@ -83,7 +83,7 @@
 					<div class="company-logo">
 						<ul>
 							{% for vendor in vendors %}
-							<li class="has-border">
+							<li class="has-border zoom">
 								<figure>
 									{% if vendor.user_profile.profile_picture %}
 									<a href="{% url 'vendor_detail' vendor.vendor_slug %}"><img src="{{ vendor.user_profile.profile_picture.url }}" height="125" class="attachment-full size-full wp-post-image" alt=""></a>

@@ -9,7 +9,7 @@ from menu.forms import CategoryForm, FoodItemForm
 from menu.models import Category, FoodItem
 from orders.models import Order, OrderedFood
 from vendor.forms import OrderStatusForm, VendorForm, OpeningHourForm
-from vendor.models import OpeningHour, Vendor
+from vendor.models import Images, OpeningHour, Vendor
 from django.contrib.auth.decorators import login_required, user_passes_test
 from accounts.views import check_role_vendor
 from django.template.defaultfilters import slugify
@@ -281,3 +281,35 @@ def change_order_status(request, order_number):
     return render(request, 'vendor/change_order_status.html', context)
 
 
+def add_images(request):
+    vendor = Vendor.objects.get(user=request.user)
+    images = Images.objects.filter(vendor=vendor)
+    context={
+        'images':images,
+        'vendor':vendor,
+    }
+    return render(request, 'vendor/add_images.html', context)
+
+
+def upload_images(request):
+    vendor = Vendor.objects.get(user=request.user)
+    if request.method == "POST":
+        images = request.FILES.getlist('up_images')
+        for image in images:
+            Images.objects.create(image=image, vendor=vendor )
+        messages.success(request, 'Images uploaded Successfully')
+        return redirect('add_images')
+    else:
+        images = Images.objects.filter(vendor=vendor)
+        context={
+        'images':images,
+        'vendor':vendor,
+        }
+        return render(request, 'vendor/add_images.html', context)
+
+def remove_images(request, pk=None):
+    if request.user.is_authenticated:
+        if is_ajax(request):
+            image = get_object_or_404(Images, pk=pk)
+            image.delete()
+            return JsonResponse({'status':'success', 'id': pk})

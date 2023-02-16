@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+{% include 'includes/alerts.html' %}
+
+<!-- Main Section Start -->
+<div class="main-section">
+    {% include 'includes/cover.html' %}
+    <div class="page-section account-header buyer-logged-in">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <!-- Load the sidebar here -->
+                    {% include 'includes/rest_sidebar.html' %}
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                    <div class="user-dashboard loader-holder">
+                        <div class="user-holder">
+                            <h5 class="text-uppercase">Food & Ambience Images...</h5>
+							<hr>
+                          
+                            <table class="table opening_hours" style="width: 500px; border: none !important;">
+                                <tbody>
+                                    {% for image in images %}
+                                        <div  class="col-lg-4 col-md-12 mb-4 mb-lg-0" style="padding-bottom: 20px;">
+                                            <img src="{{ image.image.url }}" class="zoom" alt="resturant-image" style="width: 200px; height: 200px;">
+                                        </div>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<!-- Main Section End -->
+{% endblock %}

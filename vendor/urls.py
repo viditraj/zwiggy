@@ -3,6 +3,9 @@ from django.urls import path
 from accounts import views as AccountViews
 urlpatterns = [
     path('',AccountViews.vendorDashboard, name='vendor'),
+    path('add-images/', views.add_images, name='add_images'),
+    path('add-images/remove/<int:pk>/', views.remove_images, name= 'remove_images'),
+    path('add-images/upload/', views.upload_images, name='upload'),
     path('profile', views.vprofile, name='vprofile'),
     path('menu-builder', views.menu_builder, name='menu_builder'),
     path('menu-builder/category/<int:pk>/', views.fooditems_by_category, name='fooditems_by_category'),

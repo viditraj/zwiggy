@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.marketplace, name='marketplace'),
     path('<slug:vendor_slug>/', views.vendor_detail, name='vendor_detail'),
     path('<slug:vendor_slug>/reviews/', include('reviews.urls')),
+    path('<slug:vendor_slug>/images/', views.images, name='images'),
     path('add_review/<slug:vendor_slug>/', views.add_review, name='add_review'),
     
 

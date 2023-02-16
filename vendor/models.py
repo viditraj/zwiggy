@@ -85,3 +85,8 @@ class OpeningHour(models.Model):
     
     def __str__(self):
         return self.get_day_display()
+
+
+class Images(models.Model):
+    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='vendor/resturant_images/', blank=True, null=True)

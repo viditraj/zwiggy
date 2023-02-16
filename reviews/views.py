@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from reviews.models import VendorReviews
-from vendor.models import Vendor
+from vendor.models import Images, Vendor
 from django.http import JsonResponse
 from .forms import ReviewForm
 from django.contrib import messages
@@ -40,5 +40,8 @@ def reviews(request, vendor_slug):
         'review_dict': review_dict,
     }
     return render(request, 'vendor/reviews.html', context)
+
+    
+
 
 
