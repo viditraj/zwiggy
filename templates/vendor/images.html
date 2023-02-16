@@ -23,11 +23,15 @@
                           
                             <table class="table opening_hours" style="width: 500px; border: none !important;">
                                 <tbody>
-                                    {% for image in images %}
-                                        <div  class="col-lg-4 col-md-12 mb-4 mb-lg-0" style="padding-bottom: 20px;">
-                                            <img src="{{ image.image.url }}" class="zoom" alt="resturant-image" style="width: 200px; height: 200px;">
-                                        </div>
-                                    {% endfor %}
+                                    {% if images %}
+                                        {% for image in images %}
+                                            <div  class="col-lg-4 col-md-12 mb-4 mb-lg-0" style="padding-bottom: 20px;">
+                                                <img src="{{ image.image.url }}" class="zoom" alt="resturant-image" style="width: 200px; height: 200px;">
+                                            </div>
+                                            {% endfor %}
+                                    {% else %}
+                                    <h5 class="text-center">Coming soon...</h5>
+                                    {% endif %}
                                 </tbody>
                             </table>
                         </div>
